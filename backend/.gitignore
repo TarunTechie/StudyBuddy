@@ -1,0 +1,3 @@
+*.txt
+!req.txt
+__pycache__
