@@ -1,4 +1,5 @@
 import os
+import shutil
 import json
 from schema import FolderStructure
 root_path='./testing/files/'
@@ -21,7 +22,7 @@ def removeFiles(folderStructure:FolderStructure):
         try:
             if folderStructure.fileName==None:
                 folderPath=os.path.join(root_path,folderStructure.folderName)
-                os.removedirs(folderPath)
+                shutil.rmtree(folderPath)
             else:
                 filePath=os.path.join(root_path,folderStructure.folderName,folderStructure.fileName)
                 os.remove(filePath)
@@ -32,7 +33,11 @@ def removeFiles(folderStructure:FolderStructure):
         return {"message":"No folderName"} 
     
 def getFolderStructure():
-    files=os.scandir(root_path)
+    try:
+        files=os.scandir(root_path)
+    except:
+        return {f"Root folder:`{root_path}` not found"}
+    
     folder_structure={
         "root":[],
     }

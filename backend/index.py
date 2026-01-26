@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile , File
+from fastapi import FastAPI, UploadFile , File , Depends
 from fastapi.responses import FileResponse
 from typing import List
 from schema import FolderStructure
@@ -19,6 +19,6 @@ def uploadFiles(subject:str,files:List[UploadFile]=File(...)):
 def getFiles():
     return getFolderStructure()
 
-@app.post('/delete')
-def deleteFiles(folderStructure:FolderStructure):
+@app.delete('/delete')
+def deleteFiles(folderStructure:FolderStructure=Depends()):
     return removeFiles(folderStructure)
