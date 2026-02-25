@@ -1,10 +1,12 @@
 import os
 import shutil
-import json
-from schema import FolderStructure
-root_path='./testing/files/'
+from schema import FolderStructure,root_path
+from fastapi import APIRouter , UploadFile , File , Depends
+from typing import List
+router=APIRouter()
 
-def addFiles(subject,files):
+@router.post('/uploadFiles')
+def addFiles(subject,files:List[UploadFile]=File(...)):
     directory=f'{root_path}/{subject}'
     os.makedirs(directory,exist_ok=True)
     
@@ -17,7 +19,8 @@ def addFiles(subject,files):
     except:
         return {"status":"File(s) not uploaded"}
 
-def removeFiles(folderStructure:FolderStructure):
+@router.delete('/delete')
+def removeFiles(folderStructure:FolderStructure=Depends()):
     if folderStructure.folderName:
         try:
             if folderStructure.fileName==None:
@@ -31,7 +34,8 @@ def removeFiles(folderStructure:FolderStructure):
             return {"messsage":"Couldnt not find the folder/file"}
     else:
         return {"message":"No folderName"} 
-    
+
+@router.get('/getFolderStructure')    
 def getFolderStructure():
     try:
         files=os.scandir(root_path)

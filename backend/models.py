@@ -7,5 +7,5 @@ chatModel=ChatOllama(model='llama3.2:latest',
                  top_p=0.5)
 
 emdbModel=OllamaEmbeddings(model='embeddinggemma:latest',
-                           num_ctx=4096)
+                           num_ctx=2000)
 
